@@ -1,21 +1,8 @@
-"use servrer"
+"use server"
 
-import { error } from "console";
-import { sosLoginConfig } from "./sos-config";
+import Error from "next/error";
+import { sosLoginConfig, savedUserData } from "./sos-config";
 import { z } from "zod";
-import { userDataExample } from "./userDataExample";
-
-interface savedUserData {
-  jwt: string,
-  idusuario: string,
-  cuits: [
-    {
-      id:string,
-      cuit: string,
-      razonsocial: string
-    }
-  ] | undefined
-}
 
 const cuitDataSchema = z.object(
   {
@@ -27,11 +14,12 @@ const cuitDataSchema = z.object(
 const performLoginSos = async (cuit: string ): Promise<string> => {
   try {
     //GET USER JWT AND DATA
-/*     const loginResponse = await fetch(sosLoginConfig.url,sosLoginConfig.options);
+    /*
+    const loginResponse = await fetch(sosLoginConfig.url,sosLoginConfig.options);
     if (!loginResponse.ok){
       throw error
     }
-    const savedUserData = await loginResponse.json() as savedUserData; */
+    const savedUserData = await loginResponse.json() as savedUserData;
     const savedUserData = userDataExample
     console.log("JWT: " + JSON.stringify(savedUserData.jwt) + `\n Data: `+ JSON.stringify(savedUserData));
     
@@ -51,7 +39,8 @@ const performLoginSos = async (cuit: string ): Promise<string> => {
     }
     let savedCuitData = await getCuitCredentialsResponse.json();
     console.log("JWTC: " + JSON.stringify(savedCuitData));
-    
+    */
+   let savedCuitData = JSON.parse('{"jwt": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGN1aXQiOiI2MTEyIiwiaWR1c3VhcmlvIjo0ODQ5LCJzZWVkIjoyMDQ5MjE4Mzg5MzcxNzIxfQ.YNiBH8POWAGzlxPYrOj9yOFjfzK4nYqzPnA1g7AoAE6Q2s-sqjtO5GeDPtot1Wgq6ZDt0g5u_3n9JGDcB2S3LA"}')
     return savedCuitData.jwt
 
   } catch (error) {

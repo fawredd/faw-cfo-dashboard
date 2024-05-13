@@ -36,3 +36,4 @@ yarn-error.log*
 next-env.d.ts
 
 /lib/sos-contador/userDataExample.ts
+/lib/sos-contador/cuitSySdataExample.ts

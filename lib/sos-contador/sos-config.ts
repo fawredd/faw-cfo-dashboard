@@ -16,3 +16,15 @@ export const sosLoginConfig = {
         body: sosLoginData
     }
 };
+
+export interface savedUserData {
+    jwt: string,
+    idusuario: string,
+    cuits: [
+      {
+        id:string,
+        cuit: string,
+        razonsocial: string
+      }
+    ] | undefined
+  }

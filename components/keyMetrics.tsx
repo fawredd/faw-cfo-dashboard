@@ -1,17 +1,18 @@
+import { env } from "@/lib/env";
+import performLoginSos from "@/lib/sos-contador/sos-login";
+import { cuitSyS } from "@/lib/sos-contador/sos-sys";
+import  kpis  from "@/lib/sos-contador/setMetrics"
+import AreaChartPlot from "./areaChartPlot";
 
-import performLoginSos from "@/lib/sos-contador/sos-login"
-export default async function KeyMetrics(data:any){
-const data2 = await performLoginSos(env.CUIT)    
-return (
+export default async function KeyMetrics() {
+  const jwtC = await performLoginSos(env.CUIT);
+  const cuitSys = await cuitSyS(jwtC, "2022-01-01", "2022-12-31");
+
+  return (
     <>
-        <div>
-            <p>1-------------</p>
-            {JSON.stringify(data)}
-        </div>
-        <div>
-            <p>2-------------</p>
-            {JSON.stringify(data2)}
-        </div>
+      <div className="text-sm h-96 w-96">
+        <AreaChartPlot />
+      </div>
     </>
-    )
+  );
 }

@@ -8,6 +8,7 @@ DaisyUI: A lightweight CSS framework for Tailwind CSS.
 Prisma: A powerful ORM for Node.js and TypeScript that simplifies database interactions.
 TypeScript: A superset of JavaScript that adds static typing to the language.
 Tailwind CSS: A utility-first CSS framework that provides a robust set of base styles and components.
+Faker: Popular JavaScript library for generating realistic fake data 
 
 ### Key Features:
 Data fetching from the SOS-Contador API
