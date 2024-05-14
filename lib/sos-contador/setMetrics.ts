@@ -1,4 +1,6 @@
 import {cuitSYS} from "./cuitSySdataExample"
+import type { MetricSchema } from "@/lib/schemas"
+import { roundUpToNearestInteger, roundToDecimals } from "@/lib/utils";
 
 interface Account {
     codigo: string,
@@ -9,11 +11,9 @@ interface Account {
     montosaldo_fin: number
 }
 
-export default function kpis(){
-
 const revenue = cuitSYS.items.reduce((acumulador:number,item: Account):number => {
     return (item.codigo.slice(0,5) === "04.01")? (acumulador + Math.abs(item.montosaldo_fin)):acumulador
-},0)
+},0) as number
 const EBIT = cuitSYS.items.reduce((acumulador:number,item: Account):number => {
     return (item.codigo.slice(0,8) === "04.01.01")? (acumulador + Math.abs(item.montosaldo_fin)):acumulador
 },0)
@@ -30,14 +30,48 @@ const expenses = cuitSYS.items.reduce((acumulador:number,item: Account):number =
     return (item.codigo.slice(0,5) === "04.02")? (acumulador + Math.abs(item.montosaldo_fin)):acumulador
 },0)
 
-return {
-    revenue: revenue.toLocaleString("es-AR"),
-    expenses: expenses.toLocaleString("es-AR"),
-    grossProfit: grossProfit.toLocaleString("es-AR"),
-    grossProfitMargin: grossProfitMargin.toLocaleString("es-AR") + "%",
-    netProfitMargin: netProfitMargin.toLocaleString("es-AR") + "%",
-    ROI: ROI.toLocaleString("es-AR")+"%",
-    EBIT: EBIT.toLocaleString("es-AR"),
-    EBITmargin: EBITmargin.toLocaleString("es-AR")+"%"    
+const kpis = {
+    revenue: revenue,
+    expenses: expenses,
+    grossProfit: grossProfit,
+    grossProfitMargin: grossProfitMargin,
+    netProfitMargin: netProfitMargin,
+    ROI: ROI,
+    EBIT: EBIT,
+    EBITmargin: EBITmargin
 }
-}
+
+export let data:MetricSchema[] = []
+
+for (const key in kpis) {
+    const title = key.toUpperCase();
+    const value = kpis[key];
+    const target = roundUpToNearestInteger(value);
+    const itemColor =
+        value >= 0.6
+        ? "green"
+        : value > 0.25 && value <= 0.59
+        ? "orange"
+        : "red";
+    const itemData = [
+      {
+        name: title,
+        value: roundToDecimals(value / target),
+        color: itemColor,
+      },
+      {
+        name: "Target",
+        value: roundToDecimals(1 - value / target),
+        color: "gray",
+      },
+    ];
+  
+    const item: MetricSchema = {
+      title: title,
+      value: value,
+      target: target,
+      data: itemData,
+    };
+  
+    data.push(item);
+  }
