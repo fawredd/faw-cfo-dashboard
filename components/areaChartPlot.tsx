@@ -1,46 +1,33 @@
 "use client"
 
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import { mayor } from '@/lib/sos-contador/userDataExample'
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts'
 
 const AreaChartPlot = () => {
-    const data = [
-      {
-        "year": "2016",
-        "Iphone": 4000,
-        "Samsung": 2400
-      },
-      {
-        "year": "2017",
-        "Iphone": 3000,
-        "Samsung": 1398
-      },
-      {
-        "year": "2018",
-        "Iphone": 2000,
-        "Samsung": 9800
-      },
-      {
-        "year": "2019",
-        "Iphone": 2780,
-        "Samsung": 3908
-      },
-      {
-        "year": "2020",
-        "Iphone": 1890,
-        "Samsung": 4800
-      },
-      {
-        "year": "2021",
-        "Iphone": 2390,
-        "Samsung": 3800
-      },
-      {
-        "year": "2022",
-        "Iphone": 3490,
-        "Samsung": 4300
+    //console.log(mayor.items)
+    let data = mayor.items.map( (item) => {
+      const mes = item.fecha.slice(5,7)
+      return {
+        mes: `${mes}`,
+        montosaldo: item.montosaldo
       }
-    ]
-
+    })
+    //console.log(data)
+    data = data.reduce((acc: { mes: string; montosaldo: number; }[], item) => {
+      if (!acc) {
+        acc = [{ mes: item.mes, montosaldo: 0 }];
+      } else {
+        const existingIndex = acc.findIndex(i => i.mes === item.mes);
+        if (existingIndex === -1) {
+          acc.push({ mes: item.mes, montosaldo: 0 });
+        }
+      }
+      let suma = acc.find(i => i.mes === item.mes).montosaldo
+      suma = Math.round((suma + item.montosaldo)*100/100)
+      acc.find(i => i.mes === item.mes).montosaldo = suma
+      return acc;
+    }, []);
+    console.log(JSON.stringify(data))
     return (
         <>
           <ResponsiveContainer width="100%" height="100%" >
@@ -51,16 +38,13 @@ const AreaChartPlot = () => {
                   <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
                   <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
                 </linearGradient>
-                <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
-                </linearGradient>
               </defs>
-              <XAxis dataKey="year" />
+              <XAxis dataKey="mes" />
               <YAxis />
               <Tooltip />
-              <Area type="monotone" dataKey="Iphone" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
-              <Area type="monotone" dataKey="Samsung" stroke="#82ca9d" fillOpacity={1} fill="url(#colorPv)" />
+              <Legend verticalAlign='top' />
+              <Area type="monotone" dataKey="montosaldo" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
+
             </AreaChart>
           </ResponsiveContainer>
         </>
