@@ -22,7 +22,7 @@ const AreaChartPlot = () => {
           acc.push({ mes: item.mes, montosaldo: 0 });
         }
       }
-      let suma = acc.find(i => i.mes === item.mes).montosaldo
+      let suma = acc.find(i => i.mes === item.mes)?.montosaldo || 0
       suma = Math.round((suma + item.montosaldo)*100/100)
       acc.find(i => i.mes === item.mes).montosaldo = suma
       return acc;
@@ -30,15 +30,9 @@ const AreaChartPlot = () => {
     console.log(JSON.stringify(data))
     return (
         <>
-          <ResponsiveContainer width="100%" height="100%" >
+          <ResponsiveContainer width="100%" height="100%">
             <AreaChart width={730} height={250} data={data}
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-              <defs>
-                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-                </linearGradient>
-              </defs>
               <XAxis dataKey="mes" />
               <YAxis />
               <Tooltip />

@@ -1,4 +1,7 @@
-import {cuitSYS} from "./cuitSySdataExample"
+
+/* QUEDA PENDIENTE IMPORTAR LOS DATOS DEL SUMAS Y SALDOS */
+let cuitSYS = {items:[]}
+
 import type { MetricSchema } from "@/lib/schemas"
 import { roundUpToNearestInteger, roundToDecimals } from "@/lib/utils";
 

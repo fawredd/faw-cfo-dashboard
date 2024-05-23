@@ -1,6 +1,13 @@
 "use server"
+import { login, getSession } from "../lib";
 
-/* import { cuitSYS as data2 } from "./cuitSySdataExample"; */
+/**
+* Modulo que hace la consulta de sumas y saldos del cuit seleccionado por periodo
+* @param {string} jwtC Es el jwt obtenido de sos-login
+* @param {string} fechadesde
+* @param {string} fechahasta
+* @returns {JSON} con los datos de sumas y saldos
+*/
 
 export const cuitSyS = async (jwtC: string,fechadesde:string, fechahasta:string) => {
   let raw = "";

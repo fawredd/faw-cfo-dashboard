@@ -1,9 +1,11 @@
 "use server"
 
-import Error from "next/error";
+/**
+ * ESTE MODULO SE ENCARGA DE OBTENER EL JWT DEL USUARIO DE SOS-CONTADOR 
+*/ 
+import { login, getSession } from "../lib";
 import { sosLoginConfig, savedUserData } from "./sos-config";
 import { z } from "zod";
-
 const cuitDataSchema = z.object(
   {
     jwt: z.string().trim().min(1, { message: 'required' }),
@@ -11,17 +13,31 @@ const cuitDataSchema = z.object(
   }
 )
 
+/**
+ * Realiza el proceso de login en el server de sos-contador
+ * y obtiene el jwt del usuario
+ * @param {string} cuit El cuit de la empresa a consultar con formato '00-00000000-0'
+ * @returns {string} El JWT del usuario y el JWT del cuit
+ *
+ * @ejemplo
+ * performLoginSos('30-00000000-1') // Devuelve JWT o error.
+ */
 const performLoginSos = async (cuit: string ): Promise<string> => {
+  const sessionData = await getSession()
+  if (sessionData){
+    console.log("DATOS DE LA SESION:" + JSON.stringify(sessionData))
+    return sessionData
+  }
   try {
-    //GET USER JWT AND DATA
-    /*
+    
     const loginResponse = await fetch(sosLoginConfig.url,sosLoginConfig.options);
     if (!loginResponse.ok){
-      throw error
+      // Create a new Error object with details about the failed response
+      const error = new Error(`SOS Login failed with status: ${loginResponse.status}`);
+      throw error;
     }
     const savedUserData = await loginResponse.json() as savedUserData;
-    const savedUserData = userDataExample
-    console.log("JWT: " + JSON.stringify(savedUserData.jwt) + `\n Data: `+ JSON.stringify(savedUserData));
+    // console.log("JWT: " + JSON.stringify(savedUserData.jwt) + `\n Data: `+ JSON.stringify(savedUserData));
     
     let cuitIdResponse = savedUserData.cuits?.find((userCuit)=>{
       return (userCuit.cuit === cuit)
@@ -30,25 +46,35 @@ const performLoginSos = async (cuit: string ): Promise<string> => {
       //GET CUIT JWT
     const cuitData = cuitDataSchema.safeParse({jwt: savedUserData.jwt, cuitId: cuitIdResponse})
     if (cuitData.error){
-      throw cuitData.error
+      const error = new Error(`SOS Login failed with status: ${cuitData.error}`);
+      throw error
     } 
     const {url: cuitUrl, options: cuitOptions} = getCuitCredentialsConfig(cuitData.data.jwt, cuitData.data.cuitId)
     const getCuitCredentialsResponse = await fetch(cuitUrl, cuitOptions);
     if (!getCuitCredentialsResponse.ok){
+      const error = new Error(`SOS Login failed with status: ${getCuitCredentialsResponse.status}`);
       throw error
     }
     let savedCuitData = await getCuitCredentialsResponse.json();
-    console.log("JWTC: " + JSON.stringify(savedCuitData));
-    */
-   let savedCuitData = JSON.parse('{"jwt": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGN1aXQiOiI2MTEyIiwiaWR1c3VhcmlvIjo0ODQ5LCJzZWVkIjoyMDQ5MjE4Mzg5MzcxNzIxfQ.YNiBH8POWAGzlxPYrOj9yOFjfzK4nYqzPnA1g7AoAE6Q2s-sqjtO5GeDPtot1Wgq6ZDt0g5u_3n9JGDcB2S3LA"}')
+    //console.log("JWTC: " + JSON.stringify(savedCuitData));
+    login(savedCuitData.jwt) //Guardo el jwt en la sesion.
     return savedCuitData.jwt
 
   } catch (error) {
     console.log(error);
-    throw error
   }
+  return "Something went wrong"
 };
 
+/**
+ * Configura el header a utilizar en el fetch para obtener jwt del cuit
+ * @param {string} jwt Es el jwt del usuario
+ * @param {string} cuitId Es el id obtenido que referencia al cuit
+ * @returns {{header object}} 
+ *
+ * @ejemplo
+ * getCuitCredentialsConfig("aakwerlakjv","4162") // Devuelve JWT o error.
+ */
 const getCuitCredentialsConfig = (
   jwt: string, cuitId: string
 ) => {
