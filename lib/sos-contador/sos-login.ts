@@ -3,7 +3,6 @@
 /**
  * ESTE MODULO SE ENCARGA DE OBTENER EL JWT DEL USUARIO DE SOS-CONTADOR 
 */ 
-import { login, getSession } from "../lib";
 import { sosLoginConfig, savedUserData } from "./sos-config";
 import { z } from "zod";
 const cuitDataSchema = z.object(
@@ -23,19 +22,16 @@ const cuitDataSchema = z.object(
  * performLoginSos('30-00000000-1') // Devuelve JWT o error.
  */
 const performLoginSos = async (cuit: string ): Promise<string> => {
-  const sessionData = await getSession()
-  if (sessionData){
-    console.log("DATOS DE LA SESION:" + JSON.stringify(sessionData))
-    return sessionData
-  }
+
   try {
-    
+    console.log("--- Fetching user JWT --- ")
     const loginResponse = await fetch(sosLoginConfig.url,sosLoginConfig.options);
     if (!loginResponse.ok){
       // Create a new Error object with details about the failed response
       const error = new Error(`SOS Login failed with status: ${loginResponse.status}`);
       throw error;
     }
+    console.log("--- END Fetching user JWT --- ")
     const savedUserData = await loginResponse.json() as savedUserData;
     // console.log("JWT: " + JSON.stringify(savedUserData.jwt) + `\n Data: `+ JSON.stringify(savedUserData));
     
@@ -56,8 +52,6 @@ const performLoginSos = async (cuit: string ): Promise<string> => {
       throw error
     }
     let savedCuitData = await getCuitCredentialsResponse.json();
-    //console.log("JWTC: " + JSON.stringify(savedCuitData));
-    login(savedCuitData.jwt) //Guardo el jwt en la sesion.
     return savedCuitData.jwt
 
   } catch (error) {

@@ -1,7 +1,7 @@
 "use server"
 
 /**
-* Modulo que hace la consulta de sumas y saldos del cuit seleccionado por periodo
+* Modulo que hace la consulta de de un mayor de cuenta del cuit seleccionado por periodo
 * @param {string} jwtC Es el jwt obtenido de sos-login
 * @param {string} fechadesde
 * @param {string} fechahasta

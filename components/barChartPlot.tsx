@@ -1,5 +1,6 @@
 "use client";
 
+import { debug } from "console";
 import {
   BarChart,
   CartesianGrid,
@@ -22,40 +23,17 @@ const BarChartPlot = ({mayor}:{mayor:any}) => {
       </>
     )
   }
-  let data = mayor.items.map((item:any) => {
-    const mes = item.fecha.slice(5, 7);
-    return {
-      mes: `${mes}`,
-      montosaldo: item.montosaldo,
-    };
-  })
-  .reduce((acc: { mes: string; montosaldo: number }[], item:{ mes:string, montosaldo: number}) => {
-    if (!acc) {
-      acc = [{ mes: item.mes, montosaldo: 0 }];
-    } else {
-      const existingIndex = acc.findIndex((i) => i.mes === item.mes);
-      if (existingIndex === -1) {
-        acc.push({ mes: item.mes, montosaldo: 0 });
-      }
-    }
-    let suma = acc.find((i) => i.mes === item.mes)?.montosaldo || 0;
-    suma = Math.round(((suma + item.montosaldo) * 100) / 100);
-    acc.find((i) => i.mes === item.mes).montosaldo = suma;
-    return acc;
-  }, [])
-
-  //console.log(JSON.stringify(data))
-  
+  let data = mayor
   return (
     <>
       <ResponsiveContainer className="min-h-[300px]">
-        <BarChart data={data}>
+        <BarChart data={data} stackOffset="sign" margin={{ top: 5, right: 5, bottom: 5, left: 30 }}>
           <XAxis dataKey="mes" />
-          <YAxis />
-          <ReferenceLine y={0} stroke="#000" />
+          <YAxis domain={['auto', 'auto']} />
+          <ReferenceLine y={0} stroke="#FFFFFF" />
           <Tooltip />
           <Legend verticalAlign="top" />
-          <Bar dataKey="montosaldo">
+          <Bar dataKey="montosaldo" stackId="stack">
             {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
@@ -63,6 +41,7 @@ const BarChartPlot = ({mayor}:{mayor:any}) => {
               />
             ))}
           </Bar>
+          <Bar dataKey="montoacumulado" fill="green" stackId="stack" />
         </BarChart>
       </ResponsiveContainer>
     </>
