@@ -33,7 +33,7 @@ const expenses = cuitSYS.items.reduce((acumulador:number,item: Account):number =
     return (item.codigo.slice(0,5) === "04.02")? (acumulador + Math.abs(item.montosaldo_fin)):acumulador
 },0)
 
-const kpis = {
+const kpis:{ [key: string]: number } = {
     revenue: revenue,
     expenses: expenses,
     grossProfit: grossProfit,
@@ -48,7 +48,7 @@ export let data:MetricSchema[] = []
 
 for (const key in kpis) {
     const title = key.toUpperCase();
-    const value = kpis[key];
+    const value = kpis[key]
     const target = roundUpToNearestInteger(value);
     const itemColor =
         value >= 0.6
