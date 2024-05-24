@@ -1,9 +1,9 @@
 "use client"
 
-import { mayor } from '@/lib/sos-contador/userDataExample'
+
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts'
 
-const AreaChartPlot = () => {
+const AreaChartPlot = ({mayor}:{mayor:{items:{fecha:string, montosaldo:number}[]}}) => {
     //console.log(mayor.items)
     let data = mayor.items.map( (item) => {
       const mes = item.fecha.slice(5,7)

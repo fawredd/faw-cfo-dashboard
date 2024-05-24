@@ -17,3 +17,4 @@ export function roundToDecimals(value:number):number {
     const roundedNumber = Number((Math.round(value * 100) / 100).toFixed(2));
     return roundedNumber;
 }
+

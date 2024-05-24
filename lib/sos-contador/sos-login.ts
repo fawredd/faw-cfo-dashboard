@@ -5,6 +5,8 @@
 */ 
 import { sosLoginConfig, savedUserData } from "./sos-config";
 import { z } from "zod";
+import jwtCache from "../jwtCache";
+
 const cuitDataSchema = z.object(
   {
     jwt: z.string().trim().min(1, { message: 'required' }),
@@ -24,6 +26,9 @@ const cuitDataSchema = z.object(
 const performLoginSos = async (cuit: string ): Promise<string> => {
 
   try {
+    if ((jwtCache.getJWT() ?? 0)){
+      return jwtCache.getJWT() as string
+    }
     console.log("--- Fetching user JWT --- ")
     const loginResponse = await fetch(sosLoginConfig.url,sosLoginConfig.options);
     if (!loginResponse.ok){
@@ -52,6 +57,8 @@ const performLoginSos = async (cuit: string ): Promise<string> => {
       throw error
     }
     let savedCuitData = await getCuitCredentialsResponse.json();
+    const expirationTimeInMs = 1*60*60*1000
+    jwtCache.setJWT(savedCuitData.jwt, Date.now() + expirationTimeInMs)
     return savedCuitData.jwt
 
   } catch (error) {

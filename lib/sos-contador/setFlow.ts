@@ -37,12 +37,15 @@ const flowConstructor = async () => {
               }
             }
           }
-          let acumulado = acc.find((i) => i.mes === item.mes)?.montoacumulado;
-          let suma = acc.find((i) => i.mes === item.mes)?.montosaldo;
-          acumulado = Math.round((acumulado + item.montosaldo) * 100) / 100;
-          suma = Math.round((suma + item.montosaldo) * 100) / 100;
-          acc.find((i) => i.mes === item.mes).montosaldo = suma;
-          acc.find((i) => i.mes === item.mes).montoacumulado = acumulado;
+          const foundedItem = acc.find((i) => i.mes === item.mes)
+          if (foundedItem){
+            let acumulado = foundedItem.montoacumulado;
+            let suma = foundedItem.montosaldo;
+            acumulado = Math.round(((acumulado ?? 0) + item.montosaldo) * 100) / 100;
+            suma = Math.round(((suma ?? 0) + item.montosaldo) * 100) / 100;
+            foundedItem.montosaldo = suma;
+            foundedItem.montoacumulado = acumulado;
+          }
           return acc;
         },
         [],
