@@ -39,8 +39,11 @@ Construido con tecnologías modernas y escalables
 Este tablero de control está diseñado para CFO y otros profesionales que necesitan acceder y analizar datos de la plataforma SOS Contador.
 
 ## Getting Started
-edit config.js
-edit .env variables
+    edit config.js
+### edit .env variables
+    SOS_USER = ""
+    SOS_PASS = ""
+    CUIT = ""
 
 Run the development server:
 
