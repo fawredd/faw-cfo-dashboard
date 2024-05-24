@@ -58,9 +58,9 @@ export default flowConstructor;
 async function readAllMayores(cuentas:string[], fechaDesde:string, fechaHasta:string){
     const cuit = env.CUIT;
     const jwtC = await performLoginSos(cuit);
-    let datos = []
+    let datos:{}[] = []
     for (let cuenta of cuentas){
-        console.log(cuenta)
+        //console.log(cuenta)
          let mayor = await consultaMayor(
             jwtC,
             fechaDesde,

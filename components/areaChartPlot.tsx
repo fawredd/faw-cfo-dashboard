@@ -22,9 +22,12 @@ const AreaChartPlot = ({mayor}:{mayor:{items:{fecha:string, montosaldo:number}[]
           acc.push({ mes: item.mes, montosaldo: 0 });
         }
       }
-      let suma = acc.find(i => i.mes === item.mes)?.montosaldo || 0
-      suma = Math.round((suma + item.montosaldo)*100/100)
-      acc.find(i => i.mes === item.mes).montosaldo = suma
+      let foundedItem = acc.find(i => i.mes === item.mes)
+      if (foundedItem){
+        let suma = foundedItem.montosaldo
+        suma = Math.round((suma + item.montosaldo)*100/100)
+        foundedItem.montosaldo = suma
+      }
       return acc;
     }, []);
     console.log(JSON.stringify(data))
