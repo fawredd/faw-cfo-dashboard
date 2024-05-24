@@ -34,7 +34,7 @@ const BarChartPlot = ({mayor}:{mayor:any}) => {
           <Tooltip />
           <Legend verticalAlign="top" />
           <Bar dataKey="montosaldo" stackId="stack">
-            {data.map((entry, index) => (
+            {data.map((entry: { montosaldo: number; }, index: any) => (
               <Cell
                 key={`cell-${index}`}
                 fill={(entry.montosaldo<0?"red":"blue")}
