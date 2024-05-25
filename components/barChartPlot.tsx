@@ -1,6 +1,4 @@
 "use client";
-
-import { debug } from "console";
 import {
   BarChart,
   CartesianGrid,
@@ -12,6 +10,11 @@ import {
   Bar,
   ReferenceLine,
   Cell,
+  Label,
+  LineChart,
+  ComposedChart,
+  Line,
+  Area,
 } from "recharts";
 
 const BarChartPlot = ({mayor}:{mayor:any}) => {
@@ -25,26 +28,41 @@ const BarChartPlot = ({mayor}:{mayor:any}) => {
   }
   let data = mayor
   return (
-    <>
+    <div className="w-[600px] border-solid border-gray-200 border-2 rounded-xl overflow-hidden">
       <ResponsiveContainer className="min-h-[300px]">
-        <BarChart data={data} stackOffset="sign" margin={{ top: 5, right: 5, bottom: 5, left: 30 }}>
-          <XAxis dataKey="mes" />
-          <YAxis domain={['auto', 'auto']} />
-          <ReferenceLine y={0} stroke="#FFFFFF" />
+        <ComposedChart
+          data={data} 
+          stackOffset="sign" 
+          margin={{ top: 5, right: 5, bottom: 25, left: 25 }}
+        >
+          <XAxis dataKey="mes" className="text-xs">
+            <Label position="bottom"> Mes del año </Label>
+          </XAxis>
+          <YAxis 
+            domain={['auto', 'auto']} 
+            tickFormatter={(value)=>{
+              return Intl.NumberFormat('us').format(value)
+            }}
+            className="text-xs ml-2"
+          >
+            <Label position="left" angle={-90}>ARS</Label>
+          </YAxis>
+          <ReferenceLine y={0} stroke="black" />
           <Tooltip />
           <Legend verticalAlign="top" />
-          <Bar dataKey="montosaldo" stackId="stack">
-            {data.map((entry: { montosaldo: number; }, index: any) => (
+          <Area dataKey={'Saldo acumulado'} stroke="green" fill="lightgreen" />
+          <Bar dataKey={'Saldo del mes'}>
+            {data.map((entry: { 'Saldo del mes': number; }, index: any) => (
               <Cell
                 key={`cell-${index}`}
-                fill={(entry.montosaldo<0?"red":"blue")}
+                fill={(entry['Saldo del mes']<0?"red":"blue")}
               />
             ))}
           </Bar>
-          <Bar dataKey="montoacumulado" fill="green" stackId="stack" />
-        </BarChart>
+          {/* <Bar dataKey={'Saldo acumulado'} fill="green" /> */}
+        </ComposedChart>
       </ResponsiveContainer>
-    </>
+    </div>
   )
 }
 export default BarChartPlot;

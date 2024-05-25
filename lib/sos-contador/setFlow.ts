@@ -50,7 +50,17 @@ const flowConstructor = async () => {
         },
         [],
       );
-  return data
+  interface NewData {
+    mes: string;
+    'Saldo del mes': number;
+    'Saldo acumulado': number;
+  }    
+  let newData: NewData[] = data.map(item => ({
+    mes: item.mes,
+    'Saldo del mes': item.montosaldo,
+    'Saldo acumulado': item.montoacumulado
+  }));
+  return newData
 };
 
 export default flowConstructor;
