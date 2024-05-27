@@ -3,7 +3,7 @@ import consultaMayor from "@/lib/sos-contador/sos-mayor";
 import { env } from "@/lib/env";
 
 const flowConstructor = async () => {
-  let cuentas = ["01.01.01.003.003","01.01.01.001.001"]
+  let cuentas = ["01.01.01.003.003","01.01.01.001.001","01.01.01.003.002"]
   const fechaDesde = "2021-01-01"
   const fechaHasta = "2021-12-31"
   const allData = await readAllMayores(cuentas, fechaDesde, fechaHasta)
