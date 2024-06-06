@@ -2,6 +2,7 @@ import { MetricSchema, SySSchema } from "@/lib/schemas"; //Importo los esquemas
 import { cuitSyS } from "./sos-sys"; // Importo la funcion que hace la consulta del sumas y saldos a la api
 import performLoginSos from "./sos-login"; //Importo la funcion que obtiene el JWT del cuit
 import { env } from "../env"; //env verifica que las variables de entorno esten cargadas
+import {userMetrics, userFechaDesde, userFechaHasta} from '../config'
 
 import { roundUpToNearestInteger, roundToDecimals } from "@/lib/utils"; //importo funciones utiles
 
@@ -32,7 +33,7 @@ async function getSumasySaldos(): Promise<SySSchema> {
     let error = new Error("Login error.");
     throw error;
   }
-  const data: SySSchema = await cuitSyS(jwt, "2021-01-01", "2021-12-31");
+  const data: SySSchema = await cuitSyS(jwt, userFechaDesde, userFechaHasta);
   return data;
 }
 
@@ -42,11 +43,14 @@ async function getSumasySaldos(): Promise<SySSchema> {
  * @property {string} name - The name or identifier for the metric.
  * @property {string | number } dividend - The group of accounts as '04.01', or value that will be used as the dividend
  * @property {string | number | undefined } divisor - The group of accounts as '04.01.01' or value that will be used as the divisor. Can be `undefined`.
+ * @property {number} target - Target.
+ * @property {string} type 'currency' | 'margin'
  */
 interface ComputeMetricsProps {
   name: string;
   dividend: string | number;
   divisor: string | number | undefined;
+  target: number;
   type: 'currency' | 'margin';
 }
 
@@ -64,7 +68,7 @@ interface ComputeMetricsProps {
 function computeMetrics(sourceData: ComputeMetricsProps[]): void {
   getSumasySaldos()
     .then((data) => {
-      let indicators: { [key: string]: number }[] = [];
+      let indicators: {[key: string]:{value: number, target: number, type:'currency' | 'margin'}}[] = [];
       for (let item of sourceData) {
         // Verifico si el divisor es number, string o undefined para obtener su valor
         let divisor = 1;
@@ -77,7 +81,7 @@ function computeMetrics(sourceData: ComputeMetricsProps[]): void {
             // CORREGIR TIPOS DE DATOS Y VERIFICACIONES ------------------->>>>>>>>
             divisor = indicators.find(
               (i) => (item.divisor as string) in i,
-            )?.[item.divisor] as number;
+            )?.[item.divisor].value as number;
           }
         }
         // Verifico si el dividendo es number, string para obtener su valor
@@ -96,29 +100,32 @@ function computeMetrics(sourceData: ComputeMetricsProps[]): void {
               // CORREGIR TIPOS DE DATOS Y VERIFICACIONES ------------------->>>>>>>>
               dividend = indicators.find(
                 (i) => (item.dividend as string) in i,
-              )?.[item.dividend] as number;
+              )?.[item.dividend].value as number;
             }
           }
         }
         indicators.push({
-          [item.name]: Math.round((dividend / divisor) * 100) / 100,
+          [item.name]: {
+            value: Math.round((dividend / divisor) * 100) / 100,
+            target: item.target,
+            type: item.type,
+          }
         });
       }
       
-      console.log(JSON.stringify(indicators))
+      // console.log(JSON.stringify(indicators))
 
       for (let indicatorsItem of indicators) {
         for (let key in indicatorsItem) {
           const title = key.toUpperCase();
-          const value = indicatorsItem[key];
-          let target = roundUpToNearestInteger(value);
-          const itemColor =
-            value >= 0.6
+          const value = indicatorsItem[key].value;
+          let target = (value > indicatorsItem[key].target)? value:indicatorsItem[key].target; //Modifico valor de Target si es superado 
+          const itemColor: string =
+            (value/target) >= 0.6
               ? "lightgreen"
-              : value > 0.25 && value <= 0.59
-                ? "orange"
-                : "tomatoe";
-          if (value > target) target = value;
+              : (value/target) > 0.25 && (value/target) <= 0.59
+                ? "#ff7f00"
+                : "#da0028";
           const itemData = [
             {
               name: title,
@@ -129,7 +136,7 @@ function computeMetrics(sourceData: ComputeMetricsProps[]): void {
             {
               name: "Target",
               valuePie: roundToDecimals(1 - value / target),
-              value: value,
+              value: (roundToDecimals(target-indicatorsItem[key].value)),
               color: "gray",
             },
           ];
@@ -137,11 +144,12 @@ function computeMetrics(sourceData: ComputeMetricsProps[]): void {
           const item: MetricSchema = {
             title: title,
             value: value,
-            target: target,
-            type: 'currency',
+            target:indicatorsItem[key].target,
+            type: indicatorsItem[key].type,
+            color: itemColor,
             data: itemData,
           };
-
+          
           metricas.push(item);
         }
       }
@@ -153,27 +161,8 @@ function computeMetrics(sourceData: ComputeMetricsProps[]): void {
     });
 }
 
-const data: ComputeMetricsProps[] = [
-  {
-    name: "Ingresos",
-    dividend: "04.01",
-    divisor: undefined,
-    type: "currency"
-  },
-  {
-    name: "EBIT",
-    dividend: "04.01.01",
-    divisor: undefined,
-    type: "currency"
-  },
-  {
-    name: " EBIT margin",
-    dividend: "EBIT",
-    divisor: "Ingresos",
-    type: "margin"
-  },
-];
-computeMetrics(data);
+//Run function
+computeMetrics(userMetrics);
 
 /**
  * This function sums all accounts in account param group.

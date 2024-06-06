@@ -1,6 +1,7 @@
 import performLoginSos from "@/lib/sos-contador/sos-login";
 import consultaMayor from "@/lib/sos-contador/sos-mayor";
 import { env } from "@/lib/env";
+import { userFechaDesde, userFechaHasta } from "../config";
 /**
  * Este modulo se encarga de confeccionar el flujo de datos
  * unificado de todas las cuentas indicadas en el periodo seleccionado.
@@ -9,8 +10,8 @@ import { env } from "@/lib/env";
  */
 const flowConstructor = async (accounts?:string[]) => {
   let cuentas = ["01.01.01.003.003","01.01.01.001.001","01.01.01.003.002"]
-  const fechaDesde = "2021-01-01"
-  const fechaHasta = "2021-12-31"
+  const fechaDesde = userFechaDesde
+  const fechaHasta = userFechaHasta
   const allData = await readAllMayores(cuentas, fechaDesde, fechaHasta)
   
   let data = allData.map((item: any) => {

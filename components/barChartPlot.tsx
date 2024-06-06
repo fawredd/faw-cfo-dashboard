@@ -33,7 +33,7 @@ const BarChartPlot: React.FC<{dataFlow:DataItem[]}> = ({dataFlow}) => {
   }
   const data = dataFlow
   return (
-    <div className="max-w-[600px] min-w-80 min-h-80 aspect-video border-solid border-gray-200 border-2 rounded-xl overflow-hidden p-0 m-0">
+    <div className="max-w-[600px] min-w-80 min-h-80 aspect-video border-solid border-gray-200 border-2 rounded-xl overflow-hidden p-0 m-auto">
       <ResponsiveContainer className="min-h-80">
         <ComposedChart
           data={data} 

@@ -3,6 +3,7 @@ export interface MetricSchema {
     value: number;
     target: number;
     type: 'currency' | 'margin';
+    color: string;
     data: object[];
 }
 
