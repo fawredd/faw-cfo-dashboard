@@ -8,7 +8,7 @@ import flowConstructor from "@/lib/sos-contador/setFlow";
 export default async function Home() {
   const dataFlow = await flowConstructor()
   return (
-    <main className="container grid grid-cols-2">
+    <main className="container grid grid-flow-row ">
         <BarChartPlot dataFlow={dataFlow}/>
         <KeyMetrics />
     </main>

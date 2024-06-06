@@ -145,6 +145,7 @@ function computeMetrics(sourceData: ComputeMetricsProps[]): void {
           metricas.push(item);
         }
       }
+
     })
     .catch((error) => {
       console.error(error);

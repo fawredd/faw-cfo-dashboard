@@ -8,7 +8,7 @@ interface MetricProps {
 }
 export default async function Metric({ metric }: MetricProps) {
   return (
-    <div className="m-1 p-1 grid aspect-[calc(384/96)] min-h-24 w-full max-w-96 grid-cols-3 rounded-md border-solid border-gray-500 bg-white text-[0.9rem] border-2 border-opacity-30">
+    <div className="m-1 p-1 grid grid-flow-row grid-cols-3 aspect-[calc(288/96)] min-h-24 w-full max-w-72 rounded-md border-solid border-gray-500 bg-white text-[0.9rem] border-2 border-opacity-30">
       <div className="col-span-2 flex flex-col content-between justify-center pl-2 text-black">
         <p className="mb-2">{metric.title}</p>
         <p className="text-xl">
