@@ -1,8 +1,13 @@
-import { promises as fs } from 'fs';
+import fetchDupont from "@/lib/sos-contador/fetchDupont";
+import DupontCliente from "./dupont.client"
 
-export default async function Dupont(){
-    const file = await fs.readFile(process.cwd() + '/lib/sos-contador/indiceDupont.csv', 'utf8').then(res=>res);
-    return (
-        <p> {file} </p>
-    )
+export default async function Dupont() {
+    const datos = await fetchDupont()
+    const tabla = datos.split("\r\n").map((row) => {
+        return [
+          ...row.replace(/\"(\d*)\.*(\d+)[,](\d+%*)\"/g, "$1$2.$3").split(",")
+        ]
+      });
+    console.log(tabla)
+    return <DupontCliente dupont={tabla} />
 }

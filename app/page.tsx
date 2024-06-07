@@ -1,9 +1,9 @@
 
-// import KeyMetrics from "@/components/keyMetrics";
-
 import { Suspense } from 'react'
 import BarChartPlot from "@/components/barChartPlot";
 import KeyMetrics from "@/components/keyMetrics";
+import Dupont from '@/components/dupont';
+
 import flowConstructor from "@/lib/sos-contador/setFlow";
 import { userFechaDesde } from '@/lib/config';
 
@@ -27,6 +27,14 @@ export default async function Home() {
           <div className="card-body justify-center p-2">
             <Suspense fallback={<p>Loading...</p>}>
                 <BarChartPlot dataFlow={dataFlow}/>
+            </Suspense>
+          </div>
+        </div>
+        <div className="card rounded-lg">
+          <div className="card-title justify-center">Dupont</div>
+          <div className="card-body justify-center p-2">
+            <Suspense fallback={<p>Loading...</p>}>
+                <Dupont />
             </Suspense>
           </div>
         </div>
