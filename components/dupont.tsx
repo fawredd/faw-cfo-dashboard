@@ -1,5 +1,3 @@
-import {Suspense} from 'react'
-
 import fetchDupont from "@/lib/sos-contador/fetchDupont";
 import DupontCliente from "./dupont.client";
 
@@ -20,9 +18,5 @@ export default async function Dupont() {
       })
     ];
   })
-  return (
-    <Suspense fallback={<p>Loading...</p>}>
-      <DupontCliente dupont={tabla} />
-  </Suspense>
-  );
+  return <DupontCliente dupont={tabla} />
 }
