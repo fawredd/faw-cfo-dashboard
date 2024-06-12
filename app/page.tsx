@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import BarChartPlot from "@/components/barChartPlot";
 import KeyMetrics from "@/components/keyMetrics";
 import Dupont from "@/components/dupont";
@@ -15,18 +14,14 @@ export default async function Home() {
       <div className="card m-3">
         <div className="card-title p-1 justify-center bg-gray-100">Dupont</div>
         <div className="card-body justify-center p-1">
-          <Suspense fallback={<p>Loading...</p>}>
             <Dupont />
-          </Suspense>
         </div>
       </div>
 
       <div className="card m-3">
         <div className="card-title p-1 bg-gray-100 justify-center">Principales indicadores ({year}) </div>
         <div className="card-body p-1">
-          <Suspense fallback={<p>Loading...</p>}>
             <KeyMetrics />
-          </Suspense>
         </div>
       </div>
       <div className="card m-3">
@@ -34,9 +29,7 @@ export default async function Home() {
           Flujo de fondos ({year})
         </div>
         <div className="card-body justify-center p-1">
-          <Suspense fallback={<p>Loading...</p>}>
             <BarChartPlot dataFlow={dataFlow} />
-          </Suspense>
         </div>
       </div>
     </main>
