@@ -1,3 +1,4 @@
+import { AccountSchema } from "./schemas";
 
 export const formatNumber = (value: number) => {
   if (value >= 1000000) {
@@ -24,3 +25,20 @@ export function roundToDecimals(value:number):number {
     return roundedNumber;
 }
 
+/**
+ * This function sums all accounts in account param group.
+ * @param data Account balance
+ * @param account Group of accounts
+ * @returns Sum
+ */
+export function reduceAccounts(data: AccountSchema[], account: string): number {
+  const indicator = data.reduce(
+    (acumulador: number, item: AccountSchema): number => {
+      return item.codigo.slice(0, account.length) === account
+        ? acumulador + Math.abs(item.montosaldo_fin)
+        : acumulador;
+    },
+    0,
+  );
+  return indicator;
+}

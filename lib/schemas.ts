@@ -21,3 +21,12 @@ export interface SySSchema {
       montosaldo_fin: number;
     }[]
   }
+
+  export interface AccountSchema {
+    codigo: string;
+    cuenta: string;
+    montosaldo_ini: number;
+    montodebe: number;
+    montosaldo: number;
+    montosaldo_fin: number;
+  }

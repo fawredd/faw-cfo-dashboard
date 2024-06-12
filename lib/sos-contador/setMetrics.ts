@@ -4,7 +4,7 @@ import performLoginSos from "./sos-login"; //Importo la funcion que obtiene el J
 import { env } from "../env"; //env verifica que las variables de entorno esten cargadas
 import {userMetrics, userFechaDesde, userFechaHasta} from '../config'
 
-import { roundUpToNearestInteger, roundToDecimals } from "@/lib/utils"; //importo funciones utiles
+import { reduceAccounts, roundUpToNearestInteger, roundToDecimals } from "@/lib/utils"; //importo funciones utiles
 
 /**
  * Calcula y retorna un arreglo de métricas para un tablero de control.
@@ -163,24 +163,6 @@ function computeMetrics(sourceData: ComputeMetricsProps[]): void {
 
 //Run function
 computeMetrics(userMetrics);
-
-/**
- * This function sums all accounts in account param group.
- * @param data Account balance
- * @param account Group of accounts
- * @returns Sum
- */
-function reduceAccounts(data: AccountSchema[], account: string): number {
-  const indicator = data.reduce(
-    (acumulador: number, item: AccountSchema): number => {
-      return item.codigo.slice(0, account.length) === account
-        ? acumulador + Math.abs(item.montosaldo_fin)
-        : acumulador;
-    },
-    0,
-  );
-  return indicator;
-}
 
 function startsWithNumber(input: string): boolean {
   return /^\d/.test(input);
