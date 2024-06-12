@@ -1,15 +1,8 @@
-"use client";
-import { useState, useEffect, ReactNode } from "react";
-
 export default function DupontCliente({
   dupont,
 }: {
   dupont: string[][];
-}): ReactNode {
-  const [loaded, setLoaded] = useState(false);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
+}){
   let lastGroup = "";
   return (
     <div className={`overflow-x-auto`}>

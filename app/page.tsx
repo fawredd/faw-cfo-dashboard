@@ -1,20 +1,22 @@
 import BarChartPlot from "@/components/barChartPlot";
 import KeyMetrics from "@/components/keyMetrics";
-import Dupont from "@/components/dupont";
 
 import flowConstructor from "@/lib/sos-contador/setFlow";
+import { fetchDupontData } from "@/lib/sos-contador/fetchDupont";
 import { userFechaDesde } from "@/lib/config";
+import DupontChart from "@/components/dupontChart";
 
 export default async function Home() {
   const date = new Date(userFechaDesde);
   const year = date.getFullYear();
   const dataFlow = await flowConstructor();
+  const tabla  = await fetchDupontData();
   return (
     <main className="container grid lg:grid-cols-2 justify-center align-top">
       <div className="card m-3">
         <div className="card-title p-1 justify-center bg-gray-100">Dupont</div>
         <div className="card-body justify-center p-1">
-            <Dupont />
+            <DupontChart dupont={tabla} />
         </div>
       </div>
 
