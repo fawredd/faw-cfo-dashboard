@@ -14,8 +14,8 @@ export default function Metric({ metric }: MetricProps) {
     color ='text-error'
   }
   return (
-    <div className="m-1 p-1 grid grid-flow-row grid-cols-3 aspect-[calc(288/96)] min-h-24 w-full max-w-72 rounded-md border-solid border-gray-500 bg-white text-[0.9rem] border-2 border-opacity-30">
-      <div className="col-span-2 flex flex-col content-between justify-center pl-2 text-black">
+    <div className="m-1 p-1 grid grid-flow-row grid-cols-2 aspect-[calc(250/75)] min-h-24 w-full max-w-72 rounded-md border-solid border-gray-500 bg-white text-[0.9rem] border-2 border-opacity-30">
+      <div className="col-span-1 flex flex-col content-between justify-center pl-2 text-black">
         <p className="mb-2">{metric.title}</p>
         <p className="text-xl">
           {(metric.type=='currency')?formatNumber(metric.value):Math.round(metric.value*100)/100 }

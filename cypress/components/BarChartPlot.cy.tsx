@@ -1,5 +1,5 @@
 import React from 'react'
-import BarChartPlot from './barChartPlot'
+import BarChartPlot from '../../components/barChartPlot'
 
 interface DataItem {
   mes: string;

@@ -1,5 +1,5 @@
 import React from 'react'
-import Dupont from './dupont'
+import Dupont from '../../components/dupont'
 
 describe('<Dupont />', () => {
   it('renders', () => {

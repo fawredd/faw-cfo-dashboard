@@ -1,26 +1,26 @@
-INDICE DUPONT I SISTEMA DUPONT,,AÑO 1,AÑO 2,AÑO 3
-,Activo,"120.000,00","145.000,00","156.000,00"
-ESTADO DE SITUACIÓN FINANCIERA,Pasivo,"90.000,00","110.000,00","131.000,00"
-,Patrimonio,"30.000,00","35.000,00","25.000,00"
-,Ventas,"60.000,00","68.000,00","75.000,00"
-,Costo de Ventas,"37.000,00","43.000,00","49.000,00"
-,Utilidad Bruta,"23.000,00","25.000,00","26.000,00"
-,Gastos Operacionales,"12.000,00","11.000,00","14.600,00"
-ESTADO DE RESULTADOS,Utilidad Operacional,"11.000,00","14.000,00","11.400,00"
-,Ingresos no Operacionales,"2.000,00","2.900,00","3.800,00"
-,Gastos no Operacionales (Gasto de intereses),"8.000,00","9.600,00","13.400,00"
-,Utilidad antes de impuestos,"5.000,00","7.300,00","1.800,00"
-,Provision de impuestos 25%,"1.250,00","1.825,00","450,00"
-,Utilidad Neta,"3.750,00","5.475,00","1.350,00"
-Eficiencia Gestion Fiscal,Utilidad Neta / Utilidad antes de impuestos,"75,00%","75,00%","75,00%"
-Eficiencia Gestión Financiera,Utilidad antes de impuestos / Utilidad Operacional,"45,45%","52,14%","15,79%"
-Eficiencia Gestión Gastos Operativos,Utilidad Operacional / Utilidad Bruta,"47,83%","56,00%","43,85%"
-Margen Bruto,Utilidad Bruta / Ventas,"38,33%","36,76%","34,67%"
-Margen Neto,EG Fiscal * EG Financiera * EG Gastos Oper * Margen Bruto,"6,25%","8,05%","1,80%"
-Margen Neto,Utilidad Neta / Ventas,"6,25%","8,05%","1,80%"
-Rotación del Activo,Ventas / Activo,"0,50","0,47","0,48"
-Rendimiento sobre el Activo (RSA),Margen Neto * Rotación del Activo,"3,13%","3,78%","0,87%"
-Rendimiento sobre el Activo (RSA),Utilidad Neta / Activo,"3,13%","3,78%","0,87%"
-Multiplicador del Capital,Activo / Patrimonio,"4,00","4,14","6,24"
-INDICE DUPONT,Rendimiento sobre el Activo RSA * Multiplicador del Capital,"12,50%","15,64%","5,40%"
-Return On Equity (ROE),Utilidad Neta / Patrimonio,"12,50%","15,64%","5,40%"
+SISTEMA DUPONT,INDICADOR,AÑO 1,AÑO 2,AÑO 3,Grupo
+,Activo,"120.000,00","145.000,00","156.000,00",0
+ESTADO DE SITUACIÓN FINANCIERA,Pasivo,"90.000,00","110.000,00","131.000,00",0
+,Patrimonio,"30.000,00","35.000,00","25.000,00",0
+,Ventas,"60.000,00","68.000,00","75.000,00",1
+,Costo de Ventas,"37.000,00","43.000,00","49.000,00",1
+,Utilidad Bruta,"23.000,00","25.000,00","26.000,00",1
+,Gastos Operacionales,"12.000,00","11.000,00","14.600,00",1
+ESTADO DE RESULTADOS,Utilidad Operacional,"11.000,00","14.000,00","11.400,00",1
+,Ingresos no Operacionales,"2.000,00","2.900,00","3.800,00",1
+,Gastos no Operacionales (Gasto de intereses),"8.000,00","9.600,00","13.400,00",1
+,Utilidad antes de impuestos,"5.000,00","7.300,00","1.800,00",1
+,Provision de impuestos 25%,"1.250,00","1.825,00","450,00",1
+,Utilidad Neta,"3.750,00","5.475,00","1.350,00",1
+Eficiencia Gestion Fiscal,Utilidad Neta / Utilidad antes de impuestos,"75,00%","75,00%","75,00%",2
+Eficiencia Gestión Financiera,Utilidad antes de impuestos / Utilidad Operacional,"45,45%","52,14%","15,79%",2
+Eficiencia Gestión Gastos Operativos,Utilidad Operacional / Utilidad Bruta,"47,83%","56,00%","43,85%",2
+Margen Bruto,Utilidad Bruta / Ventas,"38,33%","36,76%","34,67%",2
+Margen Neto,EG Fiscal * EG Financiera * EG Gastos Oper * Margen Bruto,"6,25%","8,05%","1,80%",3
+Margen Neto,Utilidad Neta / Ventas,"6,25%","8,05%","1,80%",3
+Rotación del Activo,Ventas / Activo,"0,50","0,47","0,48",3
+Rendimiento sobre el Activo (RSA),Margen Neto * Rotación del Activo,"3,13%","3,78%","0,87%",4
+Rendimiento sobre el Activo (RSA),Utilidad Neta / Activo,"3,13%","3,78%","0,87%",4
+Multiplicador del Capital,Activo / Patrimonio,"4,00","4,14","6,24",4
+INDICE DUPONT,Rendimiento sobre el Activo RSA * Multiplicador del Capital,"12,50%","15,64%","5,40%",5
+Return On Equity (ROE),Utilidad Neta / Patrimonio,"12,50%","15,64%","5,40%",5

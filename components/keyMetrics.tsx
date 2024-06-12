@@ -4,7 +4,7 @@ import Metric from "./metric";
 export default function KeyMetrics() {
   const data = metricas;
   return (
-    <div className="flex w-full flex-row flex-wrap gap-2 items-center align-middle">
+    <div className="grid gap-2 justify-center items-center align-center">
       {data.map((item, index) => {
         return <Metric key={`${item.title + index}`} metric={item} />;
       })}
